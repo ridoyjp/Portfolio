@@ -10,26 +10,71 @@ document.addEventListener("DOMContentLoaded", () => {
     parent.querySelector(selector);
 
   const $$ = (selector, parent = document) =>
-    [...parent.querySelectorAll(selector)];
+    Array.from(parent.querySelectorAll(selector));
+
+  const reducedMotionQuery = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  );
+
+  const prefersReducedMotion = () =>
+    reducedMotionQuery.matches;
 
 
   /* =========================================================
-     PAGE READY
+     ELEMENTS
   ========================================================= */
 
-  document.documentElement.classList.add("js");
+  const body = document.body;
+  const html = document.documentElement;
 
-  const handlePageLoad = () => {
+  const header = $(".header");
+  const nav = $("#nav");
+  const menuBtn = $("#menuBtn");
 
-    document.body.classList.add(
-      "page-loaded",
-      "site-ready"
-    );
+  const progress =
+    $(".scroll-progress") ||
+    $("#progress");
 
-    const pageHeader = $(".header");
+  const backToTop = $("#backToTop");
 
-    if (pageHeader) {
-      pageHeader.classList.add("header-open");
+  const sections = $$("main section[id]");
+
+  const navLinks = nav
+    ? $$('a[href^="#"]', nav)
+    : [];
+
+  const typingText = $("#typingText");
+
+  const filterButtons = $$(".project-filter");
+  const projectItems = $$(
+    ".portfolio-item[data-category]"
+  );
+
+  const videoModal = $("#videoModal");
+  const videoPlayer = $("#projectVideo");
+  const videoError = $("#videoError");
+
+  const videoCloseButtons = videoModal
+    ? $$(".video-close", videoModal)
+    : [];
+
+  const contactForm = $("#contactForm");
+  const formStatus = $("#formStatus");
+
+
+  /* =========================================================
+     PAGE INITIALIZATION
+  ========================================================= */
+
+  html.classList.add("js");
+
+  const initializePage = () => {
+
+    body.classList.add("page-loaded");
+    body.classList.add("site-ready");
+
+    if (header) {
+      header.classList.add("header-open");
     }
 
     const hero =
@@ -40,30 +85,34 @@ document.addEventListener("DOMContentLoaded", () => {
       hero.classList.add("hero-open");
     }
 
+    /*
+      Small delay allows the browser to paint the
+      initial state before the final animation state.
+    */
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        body.classList.add(
+          "page-animation-complete"
+        );
+      });
+    });
   };
 
 
   if (document.readyState === "complete") {
-
-    handlePageLoad();
-
+    initializePage();
   } else {
-
     window.addEventListener(
       "load",
-      handlePageLoad,
+      initializePage,
       { once: true }
     );
-
   }
 
 
   /* =========================================================
      MOBILE MENU
   ========================================================= */
-
-  const menuBtn = $("#menuBtn");
-  const nav = $("#nav");
 
   const closeMenu = () => {
 
@@ -76,29 +125,65 @@ document.addEventListener("DOMContentLoaded", () => {
       "false"
     );
 
-    menuBtn.textContent = "☰";
+    menuBtn.setAttribute(
+      "aria-label",
+      "Open navigation menu"
+    );
 
+    menuBtn.textContent = "☰";
+  };
+
+
+  const openMenu = () => {
+
+    if (!menuBtn || !nav) return;
+
+    nav.classList.add("open");
+
+    menuBtn.setAttribute(
+      "aria-expanded",
+      "true"
+    );
+
+    menuBtn.setAttribute(
+      "aria-label",
+      "Close navigation menu"
+    );
+
+    menuBtn.textContent = "✕";
+  };
+
+
+  const toggleMenu = () => {
+
+    if (!menuBtn || !nav) return;
+
+    const isOpen =
+      nav.classList.contains("open");
+
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   };
 
 
   if (menuBtn && nav) {
 
+    menuBtn.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+    menuBtn.setAttribute(
+      "aria-label",
+      "Open navigation menu"
+    );
+
     menuBtn.addEventListener(
       "click",
-      () => {
-
-        const isOpen =
-          nav.classList.toggle("open");
-
-        menuBtn.setAttribute(
-          "aria-expanded",
-          String(isOpen)
-        );
-
-        menuBtn.textContent =
-          isOpen ? "✕" : "☰";
-
-      }
+      toggleMenu
     );
 
 
@@ -106,19 +191,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
       link.addEventListener(
         "click",
-        closeMenu
+        () => {
+          closeMenu();
+        }
       );
 
     });
+
+
+    document.addEventListener(
+      "click",
+      (event) => {
+
+        if (
+          !nav.contains(event.target) &&
+          !menuBtn.contains(event.target)
+        ) {
+          closeMenu();
+        }
+
+      }
+    );
+
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (
+          event.key === "Escape" &&
+          nav.classList.contains("open")
+        ) {
+          closeMenu();
+          menuBtn.focus();
+        }
+
+      }
+    );
 
   }
 
 
   /* =========================================================
-     HEADER
+     HEADER SCROLL STATE
   ========================================================= */
-
-  const header = $(".header");
 
   const updateHeader = () => {
 
@@ -136,28 +252,23 @@ document.addEventListener("DOMContentLoaded", () => {
      SCROLL PROGRESS
   ========================================================= */
 
-  const progress =
-    $(".scroll-progress") ||
-    $("#progress");
-
   const updateProgress = () => {
 
     if (!progress) return;
 
-    const scrollTop =
-      window.scrollY;
+    const scrollTop = window.scrollY;
 
     const scrollHeight =
       document.documentElement.scrollHeight -
       window.innerHeight;
 
-    const percent =
+    const percentage =
       scrollHeight > 0
         ? (scrollTop / scrollHeight) * 100
         : 0;
 
     progress.style.width =
-      `${Math.min(percent, 100)}%`;
+      `${Math.min(100, Math.max(0, percentage))}%`;
 
   };
 
@@ -165,9 +276,6 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =========================================================
      BACK TO TOP
   ========================================================= */
-
-  const backToTop =
-    $("#backToTop");
 
   const updateBackToTop = () => {
 
@@ -189,7 +297,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         window.scrollTo({
           top: 0,
-          behavior: "smooth"
+          behavior: prefersReducedMotion()
+            ? "auto"
+            : "smooth"
         });
 
       }
@@ -202,15 +312,6 @@ document.addEventListener("DOMContentLoaded", () => {
      ACTIVE NAVIGATION
   ========================================================= */
 
-  const sections =
-    $$("main section[id]");
-
-  const navLinks =
-    nav
-      ? $$('a[href^="#"]', nav)
-      : [];
-
-
   const updateActiveNav = () => {
 
     if (
@@ -221,7 +322,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const scrollPosition =
-      window.scrollY + 180;
+      window.scrollY +
+      (header ? header.offsetHeight + 80 : 150);
 
     let currentId =
       sections[0]?.id || "";
@@ -242,10 +344,28 @@ document.addEventListener("DOMContentLoaded", () => {
       const href =
         link.getAttribute("href");
 
+      const isActive =
+        href === `#${currentId}`;
+
       link.classList.toggle(
         "current",
-        href === `#${currentId}`
+        isActive
       );
+
+      if (isActive) {
+
+        link.setAttribute(
+          "aria-current",
+          "page"
+        );
+
+      } else {
+
+        link.removeAttribute(
+          "aria-current"
+        );
+
+      }
 
     });
 
@@ -253,7 +373,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =========================================================
-     OPTIMIZED SCROLL EVENTS
+     OPTIMIZED SCROLL
   ========================================================= */
 
   let scrollTicking = false;
@@ -264,7 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     scrollTicking = true;
 
-    window.requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
 
       updateHeader();
       updateProgress();
@@ -287,7 +407,9 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener(
     "scroll",
     handleScroll,
-    { passive: true }
+    {
+      passive: true
+    }
   );
 
 
@@ -311,16 +433,14 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        let target;
+        let target = null;
 
         try {
-
-          target = $(targetId);
-
+          target = document.querySelector(
+            targetId
+          );
         } catch {
-
           return;
-
         }
 
         if (!target) return;
@@ -336,8 +456,7 @@ document.addEventListener("DOMContentLoaded", () => {
           target.getBoundingClientRect().top +
           window.scrollY -
           headerHeight -
-          12;
-
+          16;
 
         window.scrollTo({
 
@@ -346,10 +465,12 @@ document.addEventListener("DOMContentLoaded", () => {
             targetPosition
           ),
 
-          behavior: "smooth"
+          behavior:
+            prefersReducedMotion()
+              ? "auto"
+              : "smooth"
 
         });
-
 
         closeMenu();
 
@@ -364,17 +485,21 @@ document.addEventListener("DOMContentLoaded", () => {
   ========================================================= */
 
   const animatedElements = $$(
-    ".reveal, " +
-    ".reveal-left, " +
-    ".reveal-right, " +
-    ".reveal-zoom, " +
-    ".scroll-animate, " +
-    ".scroll-left, " +
-    ".scroll-right"
+    [
+      ".reveal",
+      ".reveal-left",
+      ".reveal-right",
+      ".reveal-zoom",
+      ".scroll-animate",
+      ".scroll-left",
+      ".scroll-right"
+    ].join(", ")
   );
 
 
   const showElement = (element) => {
+
+    if (!element) return;
 
     element.classList.add(
       "active",
@@ -386,14 +511,45 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
 
+  /*
+    Hero elements should never wait for
+    IntersectionObserver.
+  */
+
+  const heroElements = $$(
+    "#home .reveal, " +
+    "#home .reveal-left, " +
+    "#home .reveal-right, " +
+    "#home .reveal-zoom"
+  );
+
+
+  heroElements.forEach((element) => {
+    showElement(element);
+  });
+
+
+  const scrollElements =
+    animatedElements.filter(
+      (element) =>
+        !heroElements.includes(element)
+    );
+
+
   if (
-    "IntersectionObserver" in window &&
-    animatedElements.length
+    prefersReducedMotion() ||
+    !("IntersectionObserver" in window)
   ) {
 
-    const animationObserver =
+    scrollElements.forEach(
+      showElement
+    );
+
+  } else if (scrollElements.length) {
+
+    const observer =
       new IntersectionObserver(
-        (entries, observer) => {
+        (entries, observerInstance) => {
 
           entries.forEach((entry) => {
 
@@ -401,47 +557,56 @@ document.addEventListener("DOMContentLoaded", () => {
               return;
             }
 
-            showElement(entry.target);
+            showElement(
+              entry.target
+            );
 
-            observer.unobserve(entry.target);
+            observerInstance.unobserve(
+              entry.target
+            );
 
           });
 
         },
         {
           threshold: 0.08,
-          rootMargin: "0px 0px -30px 0px"
+          rootMargin:
+            "0px 0px -50px 0px"
         }
       );
 
 
-    animatedElements.forEach((element) => {
+    scrollElements.forEach(
+      (element) => {
 
-      animationObserver.observe(element);
+        observer.observe(
+          element
+        );
 
-    });
-
-  } else {
-
-    animatedElements.forEach(showElement);
+      }
+    );
 
   }
 
 
-  setTimeout(() => {
+  /*
+    Safety fallback.
+    Prevents hidden content if an observer
+    fails on an unusual browser/device.
+  */
 
-    animatedElements.forEach(showElement);
+  window.setTimeout(() => {
 
-  }, 2000);
+    scrollElements.forEach(
+      showElement
+    );
+
+  }, 3000);
 
 
   /* =========================================================
-     TYPING TEXT
+     TYPING EFFECT
   ========================================================= */
-
-  const typingText =
-    $("#typingText");
-
 
   if (typingText) {
 
@@ -452,77 +617,84 @@ document.addEventListener("DOMContentLoaded", () => {
         .filter(Boolean);
 
 
-    if (words.length > 0) {
+    if (words.length) {
 
-      let wordIndex = 0;
-      let charIndex = 0;
-      let isDeleting = false;
-
-
-      const type = () => {
-
-        const currentWord =
-          words[wordIndex];
-
+      if (prefersReducedMotion()) {
 
         typingText.textContent =
-          currentWord.substring(
-            0,
-            charIndex
+          words[0];
+
+      } else {
+
+        let wordIndex = 0;
+        let charIndex = 0;
+        let deleting = false;
+
+        const typeText = () => {
+
+          const currentWord =
+            words[wordIndex];
+
+          typingText.textContent =
+            currentWord.substring(
+              0,
+              charIndex
+            );
+
+
+          let delay = 75;
+
+
+          if (!deleting) {
+
+            if (
+              charIndex <
+              currentWord.length
+            ) {
+
+              charIndex++;
+              delay = 72;
+
+            } else {
+
+              deleting = true;
+              delay = 1800;
+
+            }
+
+          } else {
+
+            if (charIndex > 0) {
+
+              charIndex--;
+              delay = 38;
+
+            } else {
+
+              deleting = false;
+
+              wordIndex =
+                (wordIndex + 1) %
+                words.length;
+
+              delay = 350;
+
+            }
+
+          }
+
+
+          window.setTimeout(
+            typeText,
+            delay
           );
 
-
-        let speed = 80;
-
-
-        if (!isDeleting) {
-
-          if (
-            charIndex <
-            currentWord.length
-          ) {
-
-            charIndex++;
-            speed = 80;
-
-          } else {
-
-            isDeleting = true;
-            speed = 1800;
-
-          }
-
-        } else {
-
-          if (charIndex > 0) {
-
-            charIndex--;
-            speed = 40;
-
-          } else {
-
-            isDeleting = false;
-
-            wordIndex =
-              (wordIndex + 1) %
-              words.length;
-
-            speed = 350;
-
-          }
-
-        }
+        };
 
 
-        setTimeout(
-          type,
-          speed
-        );
+        typeText();
 
-      };
-
-
-      type();
+      }
 
     }
 
@@ -533,11 +705,68 @@ document.addEventListener("DOMContentLoaded", () => {
      PROJECT FILTER
   ========================================================= */
 
-  const filterButtons =
-    $$(".project-filter");
+  const setFilterState = (
+    selectedFilter
+  ) => {
 
-  const projectItems =
-    $$(".portfolio-item[data-category]");
+    filterButtons.forEach(
+      (button) => {
+
+        const active =
+          (
+            button.dataset.filter ||
+            "all"
+          ) === selectedFilter;
+
+        button.classList.toggle(
+          "is-active",
+          active
+        );
+
+        button.setAttribute(
+          "aria-pressed",
+          String(active)
+        );
+
+      }
+    );
+
+
+    projectItems.forEach(
+      (project) => {
+
+        const category =
+          project.dataset.category ||
+          "";
+
+        const shouldShow =
+          selectedFilter === "all" ||
+          category === selectedFilter;
+
+
+        project.classList.toggle(
+          "is-hidden",
+          !shouldShow
+        );
+
+        project.setAttribute(
+          "aria-hidden",
+          String(!shouldShow)
+        );
+
+
+        if (shouldShow) {
+
+          requestAnimationFrame(() => {
+            showElement(project);
+          });
+
+        }
+
+      }
+    );
+
+  };
 
 
   filterButtons.forEach((button) => {
@@ -546,139 +775,115 @@ document.addEventListener("DOMContentLoaded", () => {
       "click",
       (event) => {
 
+        event.preventDefault();
         event.stopPropagation();
 
-        const selectedFilter =
-          button.dataset.filter || "all";
+        const filter =
+          button.dataset.filter ||
+          "all";
 
-
-        filterButtons.forEach(
-          (filterButton) => {
-
-            const isActive =
-              filterButton === button;
-
-            filterButton.classList.toggle(
-              "is-active",
-              isActive
-            );
-
-            filterButton.setAttribute(
-              "aria-pressed",
-              String(isActive)
-            );
-
-          }
-        );
-
-
-        projectItems.forEach((project) => {
-
-          const category =
-            project.dataset.category;
-
-          const shouldShow =
-            selectedFilter === "all" ||
-            category === selectedFilter;
-
-
-          project.classList.toggle(
-            "is-hidden",
-            !shouldShow
-          );
-
-
-          project.setAttribute(
-            "aria-hidden",
-            String(!shouldShow)
-          );
-
-
-          if (shouldShow) {
-
-            requestAnimationFrame(() => {
-
-              showElement(project);
-
-            });
-
-          }
-
-        });
+        setFilterState(filter);
 
       }
     );
 
   });
+
+
+  /*
+    Set initial filter.
+  */
+
+  const activeFilter =
+    filterButtons.find(
+      (button) =>
+        button.classList.contains(
+          "is-active"
+        )
+    );
+
+  setFilterState(
+    activeFilter?.dataset.filter ||
+    "all"
+  );
 
 
   /* =========================================================
-     PROJECT MOUSE GLOW
+     PROJECT MOUSE POSITION
+     No blur / no expensive animation
   ========================================================= */
 
-  $$(".portfolio-item").forEach((card) => {
+  $$(".portfolio-item").forEach(
+    (card) => {
 
-    card.addEventListener(
-      "pointermove",
-      (event) => {
+      card.addEventListener(
+        "pointermove",
+        (event) => {
 
-        const rect =
-          card.getBoundingClientRect();
+          const rect =
+            card.getBoundingClientRect();
 
-        const x =
-          (
-            (event.clientX - rect.left) /
-            rect.width
-          ) * 100;
+          if (
+            !rect.width ||
+            !rect.height
+          ) {
+            return;
+          }
 
-        const y =
-          (
-            (event.clientY - rect.top) /
-            rect.height
-          ) * 100;
+          const x =
+            (
+              (event.clientX - rect.left) /
+              rect.width
+            ) * 100;
+
+          const y =
+            (
+              (event.clientY - rect.top) /
+              rect.height
+            ) * 100;
 
 
-        card.style.setProperty(
-          "--mouse-x",
-          `${x}%`
-        );
+          card.style.setProperty(
+            "--mouse-x",
+            `${x}%`
+          );
 
-        card.style.setProperty(
-          "--mouse-y",
-          `${y}%`
-        );
+          card.style.setProperty(
+            "--mouse-y",
+            `${y}%`
+          );
 
-      }
-    );
+        }
+      );
 
-  });
+
+      card.addEventListener(
+        "pointerleave",
+        () => {
+
+          card.style.setProperty(
+            "--mouse-x",
+            "50%"
+          );
+
+          card.style.setProperty(
+            "--mouse-y",
+            "50%"
+          );
+
+        }
+      );
+
+    }
+  );
 
 
   /* =========================================================
      VIDEO MODAL
   ========================================================= */
 
-  const videoModal =
-    $("#videoModal");
-
-  const videoPlayer =
-    $("#projectVideo");
-
-  const videoError =
-    $("#videoError");
-
-  const videoCloseButtons =
-    videoModal
-      ? $$(".video-close", videoModal)
-      : [];
-
-
   let lastVideoTrigger = null;
 
-
-  /* =========================================================
-     VIDEO SOURCE NORMALIZATION
-  ========================================================= */
 
   const getVideoURL = (source) => {
 
@@ -700,37 +905,36 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
 
-  /* =========================================================
-     SHOW VIDEO ERROR
-  ========================================================= */
-
-  const showVideoError = (message) => {
+  const showVideoError = () => {
 
     console.error(
-      "Video error:",
-      message
+      "Video could not be loaded."
     );
 
+    if (!videoError) return;
 
-    if (videoError) {
+    videoError.hidden = false;
 
-      videoError.hidden = false;
-
-      videoError.textContent =
-        "動画を読み込めませんでした。動画ファイルのパスを確認してください。";
-
-    }
+    videoError.textContent =
+      "動画を読み込めませんでした。動画ファイルのパスを確認してください。";
 
   };
 
 
-  /* =========================================================
-     OPEN VIDEO
-  ========================================================= */
+  const hideVideoError = () => {
+
+    if (!videoError) return;
+
+    videoError.hidden = true;
+
+    videoError.textContent = "";
+
+  };
+
 
   const openProjectVideo = (
     source,
-    trigger
+    trigger = null
   ) => {
 
     if (
@@ -750,55 +954,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     lastVideoTrigger =
-      trigger || document.activeElement;
+      trigger ||
+      document.activeElement;
 
 
     const videoURL =
       getVideoURL(source);
 
 
-    console.log(
-      "Opening video:",
-      videoURL
-    );
+    hideVideoError();
 
-
-    /* Clear previous error */
-
-    if (videoError) {
-
-      videoError.hidden = true;
-
-      videoError.textContent =
-        "動画を読み込めませんでした。";
-
-    }
-
-
-    /* Stop old video */
 
     try {
-
       videoPlayer.pause();
-
     } catch {}
 
 
-    /*
-      IMPORTANT:
-      Direct src assignment works more reliably
-      on Android/iPhone than repeatedly injecting
-      <source> elements.
-    */
-
-    videoPlayer.removeAttribute("src");
+    videoPlayer.removeAttribute(
+      "src"
+    );
 
     videoPlayer.load();
 
-
-    /*
-      Mobile compatibility
-    */
 
     videoPlayer.setAttribute(
       "playsinline",
@@ -816,20 +993,9 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    /*
-      We DO NOT force autoplay.
-      Some mobile browsers block autoplay.
-    */
+    videoPlayer.src =
+      videoURL;
 
-    videoPlayer.muted = false;
-
-
-    /* Set new video */
-
-    videoPlayer.src = videoURL;
-
-
-    /* Open modal */
 
     videoModal.classList.add(
       "is-open"
@@ -841,71 +1007,67 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    document.body.style.overflow =
+    body.classList.add(
+      "modal-open"
+    );
+
+
+    body.style.overflow =
       "hidden";
 
-
-    /* Load video */
 
     videoPlayer.load();
 
 
-    /*
-      Try to start after metadata
-      has loaded.
+    if (!prefersReducedMotion()) {
 
-      If mobile browser blocks it,
-      user can simply press ▶.
-    */
+      const playVideo = () => {
 
-    const tryPlay = () => {
+        const playPromise =
+          videoPlayer.play();
 
-      const playPromise =
-        videoPlayer.play();
+        if (
+          playPromise &&
+          typeof playPromise.catch ===
+          "function"
+        ) {
+
+          playPromise.catch(
+            (error) => {
+
+              console.log(
+                "Autoplay prevented:",
+                error
+              );
+
+            }
+          );
+
+        }
+
+      };
 
 
       if (
-        playPromise &&
-        typeof playPromise.catch ===
-        "function"
+        videoPlayer.readyState >= 2
       ) {
 
-        playPromise.catch((error) => {
+        playVideo();
 
-          console.log(
-            "Autoplay blocked:",
-            error
-          );
+      } else {
 
-        });
+        videoPlayer.addEventListener(
+          "loadeddata",
+          playVideo,
+          { once: true }
+        );
 
       }
-
-    };
-
-
-    if (
-      videoPlayer.readyState >= 2
-    ) {
-
-      tryPlay();
-
-    } else {
-
-      videoPlayer.addEventListener(
-        "loadeddata",
-        tryPlay,
-        { once: true }
-      );
 
     }
 
   };
 
-
-  /* =========================================================
-     CLOSE VIDEO
-  ========================================================= */
 
   const closeProjectVideo = () => {
 
@@ -913,23 +1075,17 @@ document.addEventListener("DOMContentLoaded", () => {
       !videoModal ||
       !videoPlayer
     ) {
-
       return;
-
     }
 
 
     try {
-
       videoPlayer.pause();
-
     } catch {}
 
 
     try {
-
       videoPlayer.currentTime = 0;
-
     } catch {}
 
 
@@ -950,27 +1106,26 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    document.body.style.overflow =
-      "";
+    body.classList.remove(
+      "modal-open"
+    );
 
 
-    if (videoError) {
+    body.style.overflow = "";
 
-      videoError.hidden = true;
 
-    }
+    hideVideoError();
 
 
     if (
       lastVideoTrigger &&
+      document.contains(lastVideoTrigger) &&
       typeof lastVideoTrigger.focus ===
       "function"
     ) {
 
       try {
-
         lastVideoTrigger.focus();
-
       } catch {}
 
     }
@@ -982,15 +1137,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =========================================================
-     GET PROJECT VIDEO
+     PROJECT DATA HELPERS
   ========================================================= */
 
-  const getCardVideoSource = (card) => {
+  const getCardVideoSource = (
+    card
+  ) => {
+
+    if (!card) return "";
 
     if (card.dataset.video) {
-
       return card.dataset.video;
-
     }
 
 
@@ -1015,16 +1172,14 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
 
-  /* =========================================================
-     GET PROJECT LINK
-  ========================================================= */
+  const getCardLink = (
+    card
+  ) => {
 
-  const getCardLink = (card) => {
+    if (!card) return "";
 
     if (card.dataset.link) {
-
       return card.dataset.link;
-
     }
 
 
@@ -1035,9 +1190,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     if (projectLink) {
-
       return projectLink.href;
-
     }
 
 
@@ -1045,10 +1198,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   };
 
-
-  /* =========================================================
-     OPEN PROJECT LINK
-  ========================================================= */
 
   const openProjectLink = (
     link,
@@ -1059,17 +1208,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     const anchor =
-      card.querySelector(
+      card?.querySelector(
         "a.project-btn[href]"
       );
 
 
-    const shouldOpenNewTab =
+    const openNewTab =
       anchor &&
       anchor.target === "_blank";
 
 
-    if (shouldOpenNewTab) {
+    if (openNewTab) {
 
       window.open(
         link,
@@ -1087,15 +1236,13 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
 
-  /* =========================================================
-     OPEN PROJECT
-     VIDEO > LINK
-  ========================================================= */
-
   const openProject = (
     card,
     trigger
   ) => {
+
+    if (!card) return;
+
 
     const videoSource =
       getCardVideoSource(card);
@@ -1103,6 +1250,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const projectLink =
       getCardLink(card);
 
+
+    /*
+      Priority:
+      Video → Project link
+    */
 
     if (videoSource) {
 
@@ -1129,184 +1281,207 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =========================================================
-     PROJECT CARD CLICK
+     PROJECT CARD INTERACTION
   ========================================================= */
 
-  $$(".portfolio-item").forEach((card) => {
+  $$(".portfolio-item").forEach(
+    (card) => {
 
-    const videoSource =
-      getCardVideoSource(card);
+      const videoSource =
+        getCardVideoSource(card);
 
-    const projectLink =
-      getCardLink(card);
-
-
-    if (
-      !videoSource &&
-      !projectLink
-    ) {
-
-      return;
-
-    }
+      const projectLink =
+        getCardLink(card);
 
 
-    card.style.cursor =
-      "pointer";
+      if (
+        !videoSource &&
+        !projectLink
+      ) {
+        return;
+      }
 
 
-    if (
-      !card.hasAttribute(
-        "tabindex"
-      )
-    ) {
+      card.style.cursor =
+        "pointer";
+
+
+      if (
+        !card.hasAttribute(
+          "tabindex"
+        )
+      ) {
+
+        card.setAttribute(
+          "tabindex",
+          "0"
+        );
+
+      }
+
+
+      /*
+        Only add button role if the card
+        is acting as a clickable card.
+      */
 
       card.setAttribute(
-        "tabindex",
-        "0"
+        "role",
+        "button"
+      );
+
+
+      card.addEventListener(
+        "click",
+        (event) => {
+
+          const clickedLink =
+            event.target.closest(
+              "a[href]"
+            );
+
+
+          if (clickedLink) {
+            return;
+          }
+
+
+          const clickedVideo =
+            event.target.closest(
+              "[data-video]"
+            );
+
+
+          if (clickedVideo) {
+            return;
+          }
+
+
+          event.preventDefault();
+
+
+          openProject(
+            card,
+            card
+          );
+
+        }
+      );
+
+
+      card.addEventListener(
+        "keydown",
+        (event) => {
+
+          if (
+            event.key !== "Enter" &&
+            event.key !== " "
+          ) {
+            return;
+          }
+
+
+          event.preventDefault();
+
+
+          openProject(
+            card,
+            card
+          );
+
+        }
       );
 
     }
+  );
 
 
-    card.addEventListener(
-      "click",
-      (event) => {
+  /* =========================================================
+     DIRECT VIDEO BUTTONS
+  ========================================================= */
 
-        const clickedLink =
-          event.target.closest(
-            "a[href]"
+  $$("[data-video]").forEach(
+    (button) => {
+
+      /*
+        Ignore elements that are only
+        data attributes on a parent card.
+      */
+
+      if (
+        button.classList.contains(
+          "portfolio-item"
+        )
+      ) {
+        return;
+      }
+
+
+      button.addEventListener(
+        "click",
+        (event) => {
+
+          event.preventDefault();
+          event.stopPropagation();
+
+
+          const source =
+            button.dataset.video;
+
+
+          openProjectVideo(
+            source,
+            button
           );
 
-
-        if (clickedLink) {
-
-          return;
-
         }
+      );
 
-
-        const clickedVideoButton =
-          event.target.closest(
-            "[data-video]"
-          );
-
-
-        if (clickedVideoButton) {
-
-          return;
-
-        }
-
-
-        event.preventDefault();
-
-
-        openProject(
-          card,
-          card
-        );
-
-      }
-    );
-
-
-    card.addEventListener(
-      "keydown",
-      (event) => {
-
-        if (
-          event.key !== "Enter" &&
-          event.key !== " "
-        ) {
-
-          return;
-
-        }
-
-
-        event.preventDefault();
-
-
-        openProject(
-          card,
-          card
-        );
-
-      }
-    );
-
-  });
+    }
+  );
 
 
   /* =========================================================
-     VIDEO BUTTON CLICK
+     PROJECT LINKS
   ========================================================= */
 
-  $$("[data-video]").forEach((button) => {
+  $$(".portfolio-item a[href]").forEach(
+    (link) => {
 
-    button.addEventListener(
-      "click",
-      (event) => {
+      link.addEventListener(
+        "click",
+        (event) => {
 
-        event.preventDefault();
+          event.stopPropagation();
 
-        event.stopPropagation();
+        }
+      );
 
-
-        const videoSource =
-          button.dataset.video;
-
-
-        openProjectVideo(
-          videoSource,
-          button
-        );
-
-      }
-    );
-
-  });
+    }
+  );
 
 
   /* =========================================================
-     NORMAL PROJECT LINKS
+     VIDEO CLOSE BUTTONS
   ========================================================= */
 
-  $$(".portfolio-item a[href]").forEach((link) => {
+  videoCloseButtons.forEach(
+    (button) => {
 
-    link.addEventListener(
-      "click",
-      (event) => {
+      button.addEventListener(
+        "click",
+        (event) => {
 
-        event.stopPropagation();
+          event.preventDefault();
+          event.stopPropagation();
 
-      }
-    );
+          closeProjectVideo();
 
-  });
+        }
+      );
 
-
-  /* =========================================================
-     CLOSE VIDEO BUTTON
-  ========================================================= */
-
-  videoCloseButtons.forEach((button) => {
-
-    button.addEventListener(
-      "click",
-      (event) => {
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-        closeProjectVideo();
-
-      }
-    );
-
-  });
+    }
+  );
 
 
   /* =========================================================
@@ -1335,7 +1510,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =========================================================
-     ESC → CLOSE VIDEO
+     ESCAPE → CLOSE VIDEO
   ========================================================= */
 
   document.addEventListener(
@@ -1364,48 +1539,28 @@ document.addEventListener("DOMContentLoaded", () => {
   if (videoPlayer) {
 
     videoPlayer.addEventListener(
+      "error",
+      () => {
+
+        console.error(
+          "Video error:",
+          videoPlayer.currentSrc,
+          videoPlayer.error
+        );
+
+        showVideoError();
+
+      }
+    );
+
+
+    videoPlayer.addEventListener(
       "loadedmetadata",
       () => {
 
         console.log(
           "Video metadata loaded:",
           videoPlayer.currentSrc
-        );
-
-      }
-    );
-
-
-    videoPlayer.addEventListener(
-      "canplay",
-      () => {
-
-        console.log(
-          "Video can play:",
-          videoPlayer.currentSrc
-        );
-
-      }
-    );
-
-
-    videoPlayer.addEventListener(
-      "error",
-      () => {
-
-        const mediaError =
-          videoPlayer.error;
-
-
-        console.error(
-          "Video could not be loaded:",
-          videoPlayer.currentSrc,
-          mediaError
-        );
-
-
-        showVideoError(
-          mediaError
         );
 
       }
@@ -1423,8 +1578,24 @@ document.addEventListener("DOMContentLoaded", () => {
     event
   ) => {
 
+    if (
+      !button ||
+      prefersReducedMotion()
+    ) {
+      return;
+    }
+
+
     const rect =
       button.getBoundingClientRect();
+
+
+    if (
+      !rect.width ||
+      !rect.height
+    ) {
+      return;
+    }
 
 
     const size =
@@ -1464,7 +1635,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     button
-      .querySelector(".ripple")
+      .querySelector(
+        ".ripple"
+      )
       ?.remove();
 
 
@@ -1475,7 +1648,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ripple.addEventListener(
       "animationend",
-      () => ripple.remove()
+      () => {
+        ripple.remove();
+      },
+      { once: true }
     );
 
   };
@@ -1503,13 +1679,6 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =========================================================
      CONTACT FORM
   ========================================================= */
-
-  const contactForm =
-    $("#contactForm");
-
-  const formStatus =
-    $("#formStatus");
-
 
   if (contactForm) {
 
@@ -1554,17 +1723,52 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
+        /*
+          Basic email validation.
+        */
+
+        const emailPattern =
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+        if (
+          !emailPattern.test(email)
+        ) {
+
+          if (formStatus) {
+
+            formStatus.textContent =
+              "正しいメールアドレスを入力してください。";
+
+            formStatus.className =
+              "form-status error";
+
+          }
+
+          return;
+
+        }
+
+
         const subject =
           encodeURIComponent(
             `Portfolio Contact from ${name}`
           );
 
 
+        const bodyText =
+          [
+            `お名前: ${name}`,
+            `メールアドレス: ${email}`,
+            "",
+            "お問い合わせ内容:",
+            message
+          ].join("\n");
+
+
         const body =
           encodeURIComponent(
-            `お名前: ${name}\n` +
-            `メールアドレス: ${email}\n\n` +
-            `お問い合わせ内容:\n${message}`
+            bodyText
           );
 
 
@@ -1579,13 +1783,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        window.location.href =
+        const mailto =
           "mailto:mr25304046@ga.ttc.ac.jp" +
           `?subject=${subject}` +
           `&body=${body}`;
 
 
-        setTimeout(() => {
+        window.location.href =
+          mailto;
+
+
+        window.setTimeout(() => {
 
           contactForm.reset();
 
@@ -1595,5 +1803,128 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
   }
+
+
+  /* =========================================================
+     RESIZE HANDLING
+  ========================================================= */
+
+  let resizeTimer = null;
+
+
+  window.addEventListener(
+    "resize",
+    () => {
+
+      clearTimeout(
+        resizeTimer
+      );
+
+
+      resizeTimer =
+        window.setTimeout(() => {
+
+          updateProgress();
+          updateActiveNav();
+
+
+          if (
+            window.innerWidth > 900
+          ) {
+
+            closeMenu();
+
+          }
+
+        }, 150);
+
+    },
+    {
+      passive: true
+    }
+  );
+
+
+  /* =========================================================
+     VISIBILITY CHANGE
+  ========================================================= */
+
+  document.addEventListener(
+    "visibilitychange",
+    () => {
+
+      /*
+        Pause project video when user
+        switches browser tab.
+      */
+
+      if (
+        document.hidden &&
+        videoPlayer
+      ) {
+
+        try {
+          videoPlayer.pause();
+        } catch {}
+
+      }
+
+    }
+  );
+
+
+  /* =========================================================
+     REDUCED MOTION CHANGE
+  ========================================================= */
+
+  if (
+    typeof reducedMotionQuery.addEventListener ===
+    "function"
+  ) {
+
+    reducedMotionQuery.addEventListener(
+      "change",
+      () => {
+
+        if (prefersReducedMotion()) {
+
+          animatedElements.forEach(
+            showElement
+          );
+
+          if (typingText) {
+
+            const words =
+              (typingText.dataset.texts || "")
+                .split("|")
+                .map(
+                  (text) =>
+                    text.trim()
+                )
+                .filter(Boolean);
+
+            if (words.length) {
+              typingText.textContent =
+                words[0];
+            }
+
+          }
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     FINAL INITIAL UPDATE
+  ========================================================= */
+
+  updateHeader();
+  updateProgress();
+  updateBackToTop();
+  updateActiveNav();
 
 });

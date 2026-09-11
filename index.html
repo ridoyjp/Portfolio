@@ -48,7 +48,8 @@
       <a href="#team">チーム開発</a>
       <a href="#experience">経験</a>
       <a href="#strengths">自己PR</a>
-      <a href="#future">今後の目標</a>
+      <a href="#qualifications">資格・その他</a>
+      <a href="#future">目標</a>
       <a href="#github">GitHub</a>
       <a href="#contact">お問い合わせ</a>
     </nav>
@@ -64,7 +65,11 @@
     <!-- =========================
          HOME
     ========================== -->
-    <section id="home" class="hero profile-hero">
+    <section
+      id="home"
+      class="hero profile-hero"
+      aria-labelledby="home-title"
+    >
 
       <div class="profile-copy hero-text-up reveal">
 
@@ -72,25 +77,29 @@
           2027年卒業予定 / ITエンジニア
         </p>
 
-        <h1>
+        <h1 id="home-title">
           こんにちは。<br>
           リドイです。<br>
 
           <span
             class="typing"
             id="typingText"
-            data-texts="技術で、課題を解決する。|学び続け、成長し続ける。|チームで価値を創造する。|未来をつくるエンジニアへ。"
+            data-texts="技術で、課題を解決する。|学び続け、成長する。|チームで協力する。|信頼されるエンジニアへ。"
           ></span>
         </h1>
 
         <p class="profile-intro">
-          専門学校東京テクニカルカレッジ情報処理科で、
-          Java・Oracle Database・SQL・Webアプリケーション開発を学んでいます。
-          自ら考えて行動し、チームと協力しながら最後までやり切る
-          エンジニアを目指しています。
+          専門学校東京テクニカルカレッジの情報処理科で、
+          Java・Oracle Database・C・
+          Webアプリケーション開発を学んでいます。
+          自分で考えて行動し、チームと協力しながら
+          最後まで仕事に取り組めるエンジニアを目指しています。
         </p>
 
-        <a class="profile-btn" href="#about">
+        <a
+          class="profile-btn"
+          href="#about"
+        >
           自己紹介を見る
         </a>
 
@@ -115,10 +124,14 @@
     <!-- =========================
          ABOUT
     ========================== -->
-    <section id="about" class="section">
+    <section
+      id="about"
+      class="section"
+      aria-labelledby="about-title"
+    >
 
       <div class="section-head">
-        <h2>自己紹介</h2>
+        <h2 id="about-title">自己紹介</h2>
       </div>
 
       <div class="about-grid">
@@ -126,18 +139,27 @@
         <div class="about-main reveal">
 
           <h3>
-            技術は、誰かの「困った」を解決するために。
+            技術を使って、人の困りごとを解決したい。
           </h3>
 
           <p>
-            現在、専門学校でJava・C・SQLを中心にIT技術を学んでいます。
+            現在、専門学校でJava・C・SQLを中心に、
+            Webアプリケーション開発とデータベースについて学んでいます。
             高校時代からHTML・CSS・JavaScriptを独学し、
-            Web制作にも取り組んできました。
+            FiverrでWeb制作も経験しました。
           </p>
 
           <p>
-            制作では「まず原因を考える」「調べる」「試す」を大切にし、
-            エラーを一つずつ解決することを心がけています。
+            開発では、問題が起きたときに
+            「原因を考える」「調べる」「試す」ことを大切にしています。
+            エラーが出た場合も、原因を一つずつ確認して、
+            最後まで解決するようにしています。
+          </p>
+
+          <p>
+            チーム開発では、メンバーと情報を共有し、
+            自分の担当だけでなく、
+            チーム全体で完成させることを意識しています。
           </p>
 
         </div>
@@ -146,18 +168,18 @@
         <div class="facts reveal">
 
           <div>
-            <small>学習</small>
+            <small>学校</small>
             <strong>専門学校東京テクニカルカレッジ</strong>
           </div>
 
           <div>
-            <small>興味</small>
-            <strong>Web・ソフトウェア開発</strong>
+            <small>学習分野</small>
+            <strong>Web・Java・データベース</strong>
           </div>
 
           <div>
-            <small>日本語能力</small>
-            <strong>JLPT N2 合格</strong>
+            <small>日本語</small>
+            <strong>日本語でのコミュニケーション</strong>
           </div>
 
           <div>
@@ -175,48 +197,105 @@
     <!-- =========================
          SKILLS
     ========================== -->
-    <section id="skills" class="section alt">
+    <section
+      id="skills"
+      class="section alt"
+      aria-labelledby="skills-title"
+    >
 
       <div class="section-head">
-        <h2>スキル</h2>
+        <h2 id="skills-title">スキル</h2>
       </div>
 
       <div class="skills-grid">
 
         <article class="skill reveal">
-          <div class="skill-icon">HTML</div>
+
+          <div class="skill-icon">
+            HTML
+          </div>
+
           <h3>HTML</h3>
-          <p>構造的で分かりやすいWebページの作成</p>
+
+          <p>
+            Webページの構成を考えて、分かりやすく作成できます。
+          </p>
+
         </article>
 
+
         <article class="skill reveal">
-          <div class="skill-icon">CSS</div>
+
+          <div class="skill-icon">
+            CSS
+          </div>
+
           <h3>CSS</h3>
-          <p>レスポンシブ対応とモダンなUIデザイン</p>
+
+          <p>
+            レスポンシブ対応やWebページのデザインを学んでいます。
+          </p>
+
         </article>
 
+
         <article class="skill reveal">
-          <div class="skill-icon">JS</div>
+
+          <div class="skill-icon">
+            JS
+          </div>
+
           <h3>JavaScript</h3>
-          <p>ユーザーが操作できる動きのあるWebサイト制作</p>
+
+          <p>
+            Webページの動きやゲームの機能を作ることができます。
+          </p>
+
         </article>
 
+
         <article class="skill reveal">
-          <div class="skill-icon">JAVA</div>
+
+          <div class="skill-icon">
+            JAVA
+          </div>
+
           <h3>Java</h3>
-          <p>オブジェクト指向によるアプリケーション開発</p>
+
+          <p>
+            オブジェクト指向を学び、Webアプリケーションを開発しています。
+          </p>
+
         </article>
 
+
         <article class="skill reveal">
-          <div class="skill-icon">C</div>
+
+          <div class="skill-icon">
+            C
+          </div>
+
           <h3>C言語</h3>
-          <p>プログラミングの基礎と論理的思考</p>
+
+          <p>
+            プログラミングの基本とArduino開発を学んでいます。
+          </p>
+
         </article>
 
+
         <article class="skill reveal">
-          <div class="skill-icon">SQL</div>
-          <h3>SQL</h3>
-          <p>データベース設計とデータ操作</p>
+
+          <div class="skill-icon">
+            DB
+          </div>
+
+          <h3>Oracle Database</h3>
+
+          <p>
+            SQLを使ったデータの登録・検索・更新などを学んでいます。
+          </p>
+
         </article>
 
       </div>
@@ -248,8 +327,9 @@
             </h2>
 
             <p>
-              Web制作、Java開発、チーム制作を通して身につけた
-              課題解決力と実装力をご紹介します。
+              FiverrでのWeb制作、学校でのJava開発、
+              Webサイト制作、チーム開発など、
+              これまでに取り組んだプロジェクトを紹介します。
             </p>
 
           </div>
@@ -259,7 +339,7 @@
             class="projects-summary reveal"
             aria-label="プロジェクト数"
           >
-            <strong>04</strong>
+            <strong>05</strong>
             <span>Projects</span>
           </div>
 
@@ -313,7 +393,10 @@
 
 
         <!-- PROJECT LIST -->
-        <div class="portfolio-wrap" aria-live="polite">
+        <div
+          class="portfolio-wrap"
+          aria-live="polite"
+        >
 
 
           <!-- =========================
@@ -321,6 +404,120 @@
           ========================== -->
           <article
             class="portfolio-item project-featured reveal-zoom"
+            data-category="frontend"
+          >
+
+            <div class="portfolio-image">
+
+              <img
+                src="assets/fiverr-web.jpg"
+                alt="Fiverrで制作したWebサイト"
+                loading="lazy"
+              >
+
+              <div class="project-media-top">
+
+                <span class="project-number">
+                  01
+                </span>
+
+                <span class="project-status">
+                  <i></i>
+                  Freelance
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="portfolio-content">
+
+              <div class="project-meta">
+
+                <span>
+                  Web制作 / Freelance
+                </span>
+
+                <time datetime="P1Y">
+                  約1年間
+                </time>
+
+              </div>
+
+              <h3>
+                Fiverr Web制作
+              </h3>
+
+              <p>
+                Fiverrを通してクライアントから依頼を受け、
+                約1年間Webサイトの制作や修正を行いました。
+                クライアントの希望を確認し、
+                HTML・CSS・JavaScriptを使って
+                Webページを制作・改善しました。
+              </p>
+
+
+              <div class="project-role">
+
+                <strong>担当</strong>
+
+                <ol>
+                  <li>クライアントの希望を確認</li>
+                  <li>Webページを制作</li>
+                  <li>レイアウト・デザインを調整</li>
+                  <li>修正・改善を対応</li>
+                </ol>
+
+              </div>
+
+
+              <div
+                class="project-stack"
+                aria-label="使用技術"
+              >
+                <span>HTML</span>
+                <span>CSS</span>
+                <span>JavaScript</span>
+                <span>Responsive</span>
+                <span>Client Work</span>
+              </div>
+
+
+              <div class="project-actions">
+
+                <a
+                  href="https://ridoyjp.github.io/Fiverr-Project/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-btn"
+                >
+                  サイトを見る
+                  <span aria-hidden="true">↗</span>
+                </a>
+
+                <a
+                  href="https://github.com/ridoyjp/Fiverr-Project"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-btn project-btn-light"
+                >
+                  コードを見る
+                  <span aria-hidden="true">↗</span>
+                </a>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- =========================
+               PROJECT 02
+          ========================== -->
+          <article
+            class="portfolio-item reveal-zoom delay-1"
             data-category="frontend"
             data-link="https://ridoyjp.github.io/BANGLADESH_GUIDE_HOME_PAGE/"
             tabindex="0"
@@ -339,11 +536,12 @@
               <div class="project-media-top">
 
                 <span class="project-number">
-                  01
+                  02
                 </span>
 
                 <span class="project-status">
-                  <i></i>公開中
+                  <i></i>
+                  公開中
                 </span>
 
               </div>
@@ -354,19 +552,28 @@
             <div class="portfolio-content">
 
               <div class="project-meta">
-                <span>Front-end</span>
-                <time datetime="2026">2026</time>
+
+                <span>
+                  Front-end
+                </span>
+
+                <time datetime="2026">
+                  2026
+                </time>
+
               </div>
 
               <h3>
-                バングラデシュ旅行ガイドサイト
+                バングラデシュ旅行ガイド
               </h3>
 
               <p>
-                観光地・文化・写真情報を複数ページで整理した旅行ガイドサイトです。
-                情報を探しやすい構成、レスポンシブ対応、
-                視覚的に伝わるUIを意識して制作しました。
+                バングラデシュの観光地や文化、
+                写真などを紹介する旅行サイトを制作しました。
+                情報を探しやすい構成と、
+                スマートフォンでも見やすいデザインを意識しました。
               </p>
+
 
               <div
                 class="project-stack"
@@ -378,15 +585,30 @@
                 <span>Responsive</span>
               </div>
 
-              <a
-                href="https://ridoyjp.github.io/BANGLADESH_GUIDE_HOME_PAGE/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="project-btn"
-              >
-                Live Site
-                <span aria-hidden="true">↗</span>
-              </a>
+
+              <div class="project-actions">
+
+                <a
+                  href="https://ridoyjp.github.io/BANGLADESH_GUIDE_HOME_PAGE/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-btn"
+                >
+                  サイトを見る
+                  <span aria-hidden="true">↗</span>
+                </a>
+
+                <a
+                  href="https://github.com/ridoyjp/BANGLADESH_GUIDE_HOME_PAGE"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-btn project-btn-light"
+                >
+                  コードを見る
+                  <span aria-hidden="true">↗</span>
+                </a>
+
+              </div>
 
             </div>
 
@@ -394,10 +616,10 @@
 
 
           <!-- =========================
-               PROJECT 02
+               PROJECT 03
           ========================== -->
           <article
-            class="portfolio-item reveal-zoom delay-1"
+            class="portfolio-item reveal-zoom delay-2"
             data-category="java"
           >
 
@@ -412,14 +634,16 @@
               <div class="project-media-top">
 
                 <span class="project-number">
-                  02
+                  03
                 </span>
 
                 <span class="project-status project-status-team">
-                  <i></i>Team
+                  <i></i>
+                  Team
                 </span>
 
               </div>
+
 
               <button
                 class="project-play"
@@ -436,17 +660,42 @@
             <div class="portfolio-content">
 
               <div class="project-meta">
-                <span>Web Application</span>
-                <time datetime="2026">2026</time>
+
+                <span>
+                  Web Application
+                </span>
+
+                <time datetime="2026">
+                  2026
+                </time>
+
               </div>
 
-              <h3>掲示板システム</h3>
+              <h3>
+                掲示板システム
+              </h3>
 
               <p>
-                4人チームで開発した掲示板システムです。
-                ログイン機能、データベース連携、
-                一覧表示機能の開発を担当しました。
+                4人チームで開発したWebアプリケーションです。
+                ログイン機能、データベース接続、
+                一覧表示機能を担当しました。
               </p>
+
+
+              <div class="project-role">
+
+                <strong>
+                  担当・問題解決
+                </strong>
+
+                <p>
+                  開発中にデータが正しく表示されない問題がありました。
+                  コードとSQLを確認して原因を調べ、
+                  必要なときはメンバーに相談しながら修正しました。
+                </p>
+
+              </div>
+
 
               <div
                 class="project-stack"
@@ -459,86 +708,29 @@
                 <span>JDBC</span>
               </div>
 
-              <button
-                type="button"
-                class="project-btn project-btn-light"
-                data-video="videos/bulletin-board.mp4"
-              >
-                紹介動画を見る
-                <span aria-hidden="true">▶</span>
-              </button>
 
-            </div>
+              <div class="project-actions">
 
-          </article>
+                <button
+                  type="button"
+                  class="project-btn project-btn-light"
+                  data-video="videos/bulletin-board.mp4"
+                >
+                  紹介動画を見る
+                  <span aria-hidden="true">▶</span>
+                </button>
 
-
-          <!-- =========================
-               PROJECT 03
-          ========================== -->
-          <article
-            class="portfolio-item reveal-zoom delay-2"
-            data-category="frontend"
-            data-link="game/index.html"
-            tabindex="0"
-            role="link"
-            aria-label="JavaScriptゲームを開く"
-          >
-
-            <div class="portfolio-image project-image-contain">
-
-              <img
-                src="assets/game.png"
-                alt="JavaScriptゲームの画面"
-                loading="lazy"
-              >
-
-              <div class="project-media-top">
-
-                <span class="project-number">
-                  03
-                </span>
-
-                <span class="project-status">
-                  <i></i>Playable
-                </span>
+                <a
+                  href="https://github.com/ridoyjp/Classroom-Web-Apps"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-btn"
+                >
+                  コードを見る
+                  <span aria-hidden="true">↗</span>
+                </a>
 
               </div>
-
-            </div>
-
-
-            <div class="portfolio-content">
-
-              <div class="project-meta">
-                <span>Browser Game</span>
-                <time datetime="2026">2026</time>
-              </div>
-
-              <h3>JavaScriptゲーム</h3>
-
-              <p>
-                イベント処理とゲームロジックの学習を目的に制作。
-                操作性、スコア管理、画面の変化を意識して実装しました。
-              </p>
-
-              <div
-                class="project-stack"
-                aria-label="使用技術"
-              >
-                <span>HTML</span>
-                <span>CSS</span>
-                <span>JavaScript</span>
-                <span>Game Logic</span>
-              </div>
-
-              <a
-                href="game/index.html"
-                class="project-btn project-btn-light"
-              >
-                Play Game
-                <span aria-hidden="true">→</span>
-              </a>
 
             </div>
 
@@ -568,10 +760,12 @@
                 </span>
 
                 <span class="project-status project-status-team">
-                  <i></i>Team
+                  <i></i>
+                  Team
                 </span>
 
               </div>
+
 
               <button
                 class="project-play"
@@ -588,16 +782,43 @@
             <div class="portfolio-content">
 
               <div class="project-meta">
-                <span>Hardware</span>
-                <time datetime="2026">2026</time>
+
+                <span>
+                  Hardware
+                </span>
+
+                <time datetime="2026">
+                  2026
+                </time>
+
               </div>
 
-              <h3>Arduino グループ制作</h3>
+              <h3>
+                Arduino グループ制作
+              </h3>
 
               <p>
-                Arduinoを活用し、LED制御やセンサー処理を実装する
-                組み込み開発にチームで取り組みました。
+                Arduinoを使って、LEDやセンサーを動かす
+                グループ開発に取り組みました。
+                チームで相談しながら、
+                動作確認と修正を行いました。
               </p>
+
+
+              <div class="project-role">
+
+                <strong>
+                  自分の担当
+                </strong>
+
+                <p>
+                  C++を使ったLED制御とセンサー処理を担当しました。
+                  動作しない場合は原因を調べ、
+                  メンバーと相談しながら修正しました。
+                </p>
+
+              </div>
+
 
               <div
                 class="project-stack"
@@ -609,14 +830,128 @@
                 <span>Teamwork</span>
               </div>
 
-              <button
-                type="button"
-                class="project-btn project-btn-light"
-                data-video="videos/Arduino.mp4"
+
+              <div class="project-actions">
+
+                <button
+                  type="button"
+                  class="project-btn project-btn-light"
+                  data-video="videos/Arduino.mp4"
+                >
+                  紹介動画を見る
+                  <span aria-hidden="true">▶</span>
+                </button>
+
+                <a
+                  href="https://github.com/ridoyjp/Arduino"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-btn"
+                >
+                  コードを見る
+                  <span aria-hidden="true">↗</span>
+                </a>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- =========================
+               PROJECT 05
+          ========================== -->
+          <article
+            class="portfolio-item reveal-zoom delay-1"
+            data-category="frontend"
+            data-link="game/index.html"
+            tabindex="0"
+            role="link"
+            aria-label="JavaScriptゲームを開く"
+          >
+
+            <div class="portfolio-image project-image-contain">
+
+              <img
+                src="assets/game.png"
+                alt="JavaScriptゲームの画面"
+                loading="lazy"
               >
-                紹介動画を見る
-                <span aria-hidden="true">▶</span>
-              </button>
+
+              <div class="project-media-top">
+
+                <span class="project-number">
+                  05
+                </span>
+
+                <span class="project-status">
+                  <i></i>
+                  Playable
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="portfolio-content">
+
+              <div class="project-meta">
+
+                <span>
+                  Browser Game
+                </span>
+
+                <time datetime="2026">
+                  2026
+                </time>
+
+              </div>
+
+              <h3>
+                JavaScriptゲーム
+              </h3>
+
+              <p>
+                JavaScriptのイベント処理やゲームの仕組みを
+                学ぶために制作しました。
+                操作、スコア管理、画面の変化などを実装しました。
+              </p>
+
+
+              <div
+                class="project-stack"
+                aria-label="使用技術"
+              >
+                <span>HTML</span>
+                <span>CSS</span>
+                <span>JavaScript</span>
+                <span>Game Logic</span>
+              </div>
+
+
+              <div class="project-actions">
+
+                <a
+                  href="game/index.html"
+                  class="project-btn"
+                >
+                  ゲームをプレイ
+                  <span aria-hidden="true">→</span>
+                </a>
+
+                <a
+                  href="https://github.com/ridoyjp/Web_App_Games"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-btn project-btn-light"
+                >
+                  コードを見る
+                  <span aria-hidden="true">↗</span>
+                </a>
+
+              </div>
 
             </div>
 
@@ -632,10 +967,14 @@
     <!-- =========================
          TEAM DEVELOPMENT
     ========================== -->
-    <section id="team" class="section alt">
+    <section
+      id="team"
+      class="section alt"
+      aria-labelledby="team-title"
+    >
 
       <div class="section-head">
-        <h2>チーム開発</h2>
+        <h2 id="team-title">チーム開発</h2>
       </div>
 
       <div class="team-layout">
@@ -647,15 +986,21 @@
           </p>
 
           <h3>
-            チームで協力し、最後まで完成させる。
+            チームで協力して、最後まで完成させる。
           </h3>
 
           <p>
             掲示板Webアプリケーションの制作では、
-            4人チームで役割分担を行い、
-            機能開発・エラー調査・動作確認を進めました。
-            メンバーと情報を共有しながら、
-            協力して課題を解決することを大切にしました。
+            4人で役割を分担して開発しました。
+            私はログイン機能、データベース接続、
+            一覧表示機能を担当しました。
+          </p>
+
+          <p>
+            問題が起きたときは、
+            まず自分で原因を調べて試します。
+            解決が難しい場合はメンバーに相談し、
+            チームで問題を解決するようにしました。
           </p>
 
         </div>
@@ -666,24 +1011,24 @@
           <div>
             <b>01</b>
             <span>企画</span>
-            <small>要件確認・役割分担</small>
+            <small>必要な機能を確認・役割分担</small>
           </div>
 
           <div>
             <b>02</b>
             <span>開発</span>
-            <small>機能の実装</small>
+            <small>機能を作る</small>
           </div>
 
           <div>
             <b>03</b>
             <span>デバッグ</span>
-            <small>エラーの調査と修正</small>
+            <small>エラーを調べて修正</small>
           </div>
 
           <div>
             <b>04</b>
-            <span>レビュー</span>
+            <span>確認</span>
             <small>テスト・改善</small>
           </div>
 
@@ -697,50 +1042,87 @@
     <!-- =========================
          EXPERIENCE
     ========================== -->
-    <section id="experience" class="section">
+    <section
+      id="experience"
+      class="section"
+      aria-labelledby="experience-title"
+    >
 
       <div class="section-head">
-        <h2>経験・学習</h2>
+        <h2 id="experience-title">経験・学習</h2>
       </div>
 
       <div class="timeline">
 
         <div class="timeline-item reveal">
+
           <span>高校時代</span>
-          <h3>Web開発を学び始める</h3>
+
+          <h3>
+            Web開発を学び始める
+          </h3>
+
           <p>
             HTML・CSS・JavaScriptを独学で学び、
             Web制作を始めました。
+            分からないことは自分で調べ、
+            実際にコードを書きながら学びました。
           </p>
+
         </div>
 
+
         <div class="timeline-item reveal">
-          <span>Web制作経験</span>
-          <h3>フリーランスでのWeb制作</h3>
+
+          <span>Fiverr</span>
+
+          <h3>
+            フリーランスでWeb制作
+          </h3>
+
           <p>
-            Fiverrを通して約1年間Web制作に取り組み、
-            クライアントの要望をWebサイトとして形にする経験をしました。
+            Fiverrを通して約1年間Web制作を行いました。
+            クライアントの希望を確認しながら、
+            Webサイトの制作や修正を経験しました。
+            実際の仕事を経験できたことは、
+            大きな学びになりました。
           </p>
+
         </div>
 
+
         <div class="timeline-item reveal">
+
           <span>専門学校</span>
-          <h3>ソフトウェア開発を学習</h3>
+
+          <h3>
+            ソフトウェア開発を学ぶ
+          </h3>
+
           <p>
-            Java・C・SQLを学び、
-            チーム開発やデータベースを使用した
-            アプリケーション制作に挑戦しています。
+            Java・C・SQL・JSP・Servlet・データベースなどを学んでいます。
+            また、4人チームでWebアプリケーション開発にも取り組んでいます。
           </p>
+
         </div>
 
+
         <div class="timeline-item reveal">
+
           <span>アルバイト</span>
-          <h3>接客経験</h3>
+
+          <h3>
+            接客・コミュニケーション経験
+          </h3>
+
           <p>
-            接客経験を通して、
-            相手の話を聞き、
+            接客の仕事を通して、
+            相手の話を聞いて、
             分かりやすく伝える力を身につけました。
+            チームで働くときも、
+            相手の立場を考えて話すことを大切にしています。
           </p>
+
         </div>
 
       </div>
@@ -751,11 +1133,59 @@
     <!-- =========================
          STRENGTHS
     ========================== -->
-    <section id="strengths" class="section dark">
+    <section
+      id="strengths"
+      class="section dark"
+      aria-labelledby="strengths-title"
+    >
 
       <div class="section-head">
-        <h2>自己PR</h2>
+        <h2 id="strengths-title">自己PR</h2>
       </div>
+
+
+      <div class="about-main reveal">
+
+        <h3>
+          自分から学び、問題を解決することができます。
+        </h3>
+
+        <p>
+          私の強みは、主体的に学ぶ力と問題解決力です。
+        </p>
+
+        <p>
+          学校では、Javaを使った掲示板システムの開発に取り組みました。
+          私はログイン機能、データベース接続、
+          一覧表示機能を担当しました。
+        </p>
+
+        <p>
+          開発中にデータが正しく表示されない問題が起きたときは、
+          コードやSQLを一つずつ確認して原因を調べました。
+          自分だけで解決できない場合は、
+          チームメンバーに相談しながら修正しました。
+          最後まで確認して、正常に動くところまで完成させました。
+        </p>
+
+        <p>
+          また、Fiverrでは約1年間、
+          実際のクライアントから依頼を受けて
+          Webサイトの制作や修正を行いました。
+          相手の希望を理解し、
+          分からないことは自分で調べながら対応しました。
+        </p>
+
+        <p>
+          入社後も、分からないことをそのままにせず、
+          自分で調べて学び、周りの人にも相談しながら
+          問題を解決していきたいです。
+          新しい技術にも挑戦し、
+          チームやお客様から信頼されるITエンジニアを目指します。
+        </p>
+
+      </div>
+
 
       <div class="strength-grid">
 
@@ -763,11 +1193,13 @@
 
           <b>01</b>
 
-          <h3>課題解決力</h3>
+          <h3>
+            問題解決力
+          </h3>
 
           <p>
-            エラーが起きたときに原因を調査し、
-            仮説を立てながら解決まで粘り強く取り組みます。
+            エラーが起きたときは原因を調べ、
+            一つずつ確認しながら解決します。
           </p>
 
         </div>
@@ -777,11 +1209,13 @@
 
           <b>02</b>
 
-          <h3>コミュニケーション力</h3>
+          <h3>
+            コミュニケーション力
+          </h3>
 
           <p>
-            チームメンバーと情報を共有し、
-            相手の意見を聞きながら協力して開発を進めます。
+            日本語・英語・ベンガル語・ヒンディー語を使い、
+            相手に分かりやすく伝えることを大切にしています。
           </p>
 
         </div>
@@ -791,13 +1225,61 @@
 
           <b>03</b>
 
-          <h3>主体的に学ぶ力</h3>
+          <h3>
+            主体的に学ぶ力
+          </h3>
 
           <p>
             分からないことをそのままにせず、
-            自分で調べて試しながら新しい技術を身につけます。
+            自分で調べて試しながら新しい知識を身につけます。
           </p>
 
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         QUALIFICATIONS
+    ========================== -->
+    <section
+      id="qualifications"
+      class="section"
+      aria-labelledby="qualifications-title"
+    >
+
+      <div class="section-head">
+        <h2 id="qualifications-title">
+          資格・その他
+        </h2>
+      </div>
+
+      <div class="facts qualification-grid reveal">
+
+        <div>
+          <small>日本語</small>
+          <strong>日本語でのコミュニケーション</strong>
+        </div>
+
+        <div>
+          <small>Microsoft Office</small>
+          <strong>
+            MOS Word・Excel・PowerPoint
+          </strong>
+        </div>
+
+        <div>
+          <small>IT資格</small>
+          <strong>.com Master</strong>
+        </div>
+
+        <div>
+          <small>開発環境</small>
+          <strong>
+            Eclipse・GitHub・Oracle Database
+          </strong>
         </div>
 
       </div>
@@ -808,10 +1290,14 @@
     <!-- =========================
          FUTURE
     ========================== -->
-    <section id="future" class="section">
+    <section
+      id="future"
+      class="section"
+      aria-labelledby="future-title"
+    >
 
       <div class="section-head">
-        <h2>今後の目標</h2>
+        <h2 id="future-title">今後の目標</h2>
       </div>
 
       <div class="future reveal">
@@ -821,10 +1307,11 @@
         </div>
 
         <p>
-          今後はJava・SQLなどの基礎をさらに深め、
-          設計から開発・テストまで対応できるエンジニアを目指します。
-          チームで協力しながら、
-          ユーザーや企業の課題を技術で解決できる人材になりたいです。
+          これからはJava・SQL・Web開発の知識をさらに深め、
+          設計・開発・テストまでできるエンジニアを目指します。
+          また、Fiverrでのクライアントワークや
+          チーム開発で身につけたコミュニケーション力を活かし、
+          ユーザーや会社の課題を技術で解決できる人になりたいです。
         </p>
 
       </div>
@@ -835,10 +1322,14 @@
     <!-- =========================
          GITHUB
     ========================== -->
-    <section id="github" class="section alt">
+    <section
+      id="github"
+      class="section alt"
+      aria-labelledby="github-title"
+    >
 
       <div class="section-head">
-        <h2>GitHub</h2>
+        <h2 id="github-title">GitHub</h2>
       </div>
 
       <div class="github-card reveal">
@@ -846,7 +1337,7 @@
         <div>
 
           <span class="tag">
-            ソースコード ・ 開発 ・ プロジェクト
+            ソースコード・開発プロジェクト
           </span>
 
           <h3>
@@ -855,10 +1346,12 @@
 
           <p>
             ポートフォリオのソースコードや、
-            これまでに制作した開発プロジェクトを公開しています。
+            これまでに制作したプロジェクトを公開しています。
+            プロジェクトのコードも整理して公開しています。
           </p>
 
         </div>
+
 
         <a
           class="btn primary"
@@ -877,10 +1370,14 @@
     <!-- =========================
          CONTACT
     ========================== -->
-    <section id="contact" class="section contact">
+    <section
+      id="contact"
+      class="section contact"
+      aria-labelledby="contact-title"
+    >
 
       <div class="section-head">
-        <h2>お問い合わせ</h2>
+        <h2 id="contact-title">お問い合わせ</h2>
       </div>
 
       <div class="contact-grid">
@@ -892,15 +1389,28 @@
           </h3>
 
           <p>
-            ITエンジニアとしての就職・インターンシップ、
-            Web開発に関するご相談など、
+            ITエンジニアの就職・インターンシップ、
+            Web開発などについて、
             お気軽にお問い合わせください。
+          </p>
+
+          <p>
+            <strong>Email</strong><br>
+            freelancerridoy001@gmail.com
+          </p>
+
+          <p>
+            <strong>GitHub</strong><br>
+            github.com/ridoyjp
           </p>
 
         </div>
 
 
-        <form id="contactForm" class="contact-form reveal">
+        <form
+          id="contactForm"
+          class="contact-form reveal"
+        >
 
           <input
             type="text"
@@ -966,8 +1476,15 @@
        FOOTER
   ========================== -->
   <footer>
-    <span>© 2026 RIDOY</span>
-    <span>HTML・CSS・JavaScriptで制作</span>
+
+    <span>
+      © 2026 RIDOY
+    </span>
+
+    <span>
+      HTML・CSS・JavaScriptで制作
+    </span>
+
   </footer>
 
 
@@ -994,6 +1511,7 @@
         プロジェクト紹介動画
       </h2>
 
+
       <button
         type="button"
         class="video-close"
@@ -1003,9 +1521,7 @@
         ✕
       </button>
 
-      <!-- =========================
-           MOBILE FRIENDLY VIDEO
-      ========================== -->
+
       <video
         id="projectVideo"
         controls
@@ -1015,6 +1531,7 @@
       >
         お使いのブラウザは動画再生に対応していません。
       </video>
+
 
       <p
         id="videoError"
@@ -1029,9 +1546,7 @@
   </div>
 
 
-  <!-- =========================
-       JAVASCRIPT
-  ========================== -->
+  <!-- JAVASCRIPT -->
   <script src="script.js"></script>
 
 </body>
